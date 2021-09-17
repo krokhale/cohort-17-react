@@ -4,6 +4,8 @@ import './App.css';
 // Hooks
 // Arrays and objects, looping
 import {useState, useEffect} from 'react'
+import MyButton from "./MyButton";
+import Item from "./Item";
 // Single react component internals
 
 function App() {
@@ -11,7 +13,10 @@ function App() {
   // think about problems in terms of side effects
   const [clickCounter, setClickCounter] = useState(0);
   const [theInputTextValue, setTheInputTextValue] = useState('');
+
   const [items, setItems] = useState(['a', 'b', 'c']);
+
+    const [list, setList] = useState(['One', 'Two', 'Three', 'Four', 'Five']);
 
   // useEffect(() => {
   //     if(clickCounter == 10){
@@ -48,9 +53,44 @@ function App() {
       setItems([...items, theInputTextValue])
   };
 
+  const runThisFunctionWhenWeReceiveInformationFromTheChild = (info) => {
+      console.log('the child component ran the function', info)
+
+  };
+
   return (
       <div>
-        <button onClick={updateCounter}>Click me</button>
+          <div className={'flex justify-center p-20'}>
+              <button className={'border border-gray-500 p-2'} onClick={updateCounter}>Click me</button>
+          </div>
+
+          <div className={'flex justify-center p-20'}>
+              {/*props*/}
+              <MyButton color={'blue'}
+                        parentFunction={runThisFunctionWhenWeReceiveInformationFromTheChild}
+                        txt={'Submit'}
+                        another={[4,5,6]}
+                        anotherVar={{firstName: 'sjad'}}  /> &nbsp; &nbsp;
+              <MyButton color={'green'} txt={'Click'} another={[4,5,6]} anotherVar={{firstName: 'sjad'}}  /> &nbsp; &nbsp;
+              <MyButton color={'red'} txt={'Next'} another={[4,5,6]} anotherVar={{firstName: 'sjad'}}  /> &nbsp; &nbsp;
+          </div>
+          {/*looping over child components*/}
+
+          <div className={'flex justify-center'}>
+              <ul className={'list-disc'}>
+                  {list.map((listItem) => {
+                      return <Item txt={listItem} />
+                  })}
+                  {/*<Item txt={'Item One'} />*/}
+                  {/*<Item txt={'Item Two'} />*/}
+                  {/*<Item txt={'Item Three'} />*/}
+                  {/*<li className={'text-2xl text-green-500'}>Item One</li>*/}
+                  {/*<li className={'text-2xl text-green-500'}>Item Two</li>*/}
+                  {/*<li className={'text-2xl text-green-500'}>Item Three</li>*/}
+              </ul>
+          </div>
+
+
         {/*JSX*/}
 
           <input onChange={onInputChange} type="text" value={theInputTextValue} />
